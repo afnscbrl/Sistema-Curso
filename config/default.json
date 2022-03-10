@@ -2,7 +2,7 @@
     "mysql": {
         "banco-de-dados": "sistema",
         "usuario": "root",
-        "senha": "1e2s3fak",
+        "senha": "12345",
         "host": "127.0.0.1"
     },
     "api": {
