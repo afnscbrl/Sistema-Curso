@@ -1,5 +1,5 @@
 const TabelaAula = require('./TabelaAula')
-const ModeloMod = require('../modulos/ModeloTabelaModulos')
+const ModeloMod = require('../../models/ModeloTabelaModulos')
 const CampoInvalido = require('../../erros/CampoInvalido')
 const DadosNaoFornecidos = require('../../erros/DadosNaoFornecidos')
 

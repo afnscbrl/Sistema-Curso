@@ -55,6 +55,15 @@ class SerializadorAula extends Serializador {
     }
 }
 
+class SerializadorUsuario extends Serializador {
+    constructor(contentType) {
+        super()
+        this.contentType = contentType
+        this.camposPublicos = ['id', 'nome']
+
+    }
+}
+
 class SerializadorErro extends Serializador {
     constructor(contentType, camposExtras) {
         super()
@@ -68,6 +77,7 @@ module.exports = {
     Serializador,
     SerializadorModulo,
     SerializadorAula,
+    SerializadorUsuario,
     SerializadorErro,
     formatosAceitos: ['application/json']
 }

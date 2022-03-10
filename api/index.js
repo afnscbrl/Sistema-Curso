@@ -37,6 +37,9 @@ app.use('/api/modulos', roteadorModulos)
 const roteadorAulas = require('./rotas/aulas')
 app.use('/api/aulas', roteadorAulas)
 
+const roteadorUsuario = require('./rotas/usuarios')
+app.use('/api/login', roteadorUsuario)
+
 app.use((erro, req, res, proximo) => {
     let status = 500
     if(erro instanceof NaoEncontrado) {

@@ -1,5 +1,5 @@
 
-const Modelo = require('./ModeloTabelaModulos')
+const Modelo = require('../../models/ModeloTabelaModulos')
 const NaoEncontrado = require('../../erros/NaoEncontrados')
 
 module.exports = {

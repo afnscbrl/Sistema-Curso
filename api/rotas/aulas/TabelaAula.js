@@ -1,4 +1,4 @@
-const Modelo = require('./ModeloTabelaAulas')
+const Modelo = require('../../models/ModeloTabelaAulas')
 const NaoEncontrado = require('../../erros/NaoEncontrados')
 
 module.exports = {
