@@ -19,6 +19,17 @@ class Usuario {
         }) 
         this.id = resultado.id
     }
+
+    async carregar() {
+        const encontrado = await TabelaUsuario.pegarPorNome(this.nome)
+        this.id = encontrado.id
+        this.senha = encontrado.senha
+    }
+    async carregarId() {
+        const encontrado = await TabelaUsuario.pegarPorId(this.id)
+        this.nome = encontrado.nome
+        this.senha = encontrado.senha
+    }
     
     async atualizar() {
         await TabelaUsuario.pegarPorId(this.id)

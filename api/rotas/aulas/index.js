@@ -2,13 +2,21 @@ const Sequelize = require('sequelize')
 const roteadorAulas = require('express').Router()
 const TabelaAulas = require('./TabelaAula')
 const Aula = require('./Aula')
-//const Modulo = require('./Modulo')
 const Modelo = require('../../models//ModeloTabelaAulas')
 const ModeloMod = require('../../models//ModeloTabelaModulos')
 const TabelaModulo = require('../modulos/TabelaModulo')
 const SerializadorAula = require('../../Serializador').SerializadorAula
-//const roteadorModulos = require('../modulos')
+const auth = require('../usuarios/auth')
 
+let verificaToken = async function (req, res, proximo) {
+    try {
+        const token = req.get('Authorization')
+        await auth.verificaAutorizacao(token)
+        proximo()
+    } catch (erro) {
+        res.status(401).send({Error: erro.message})
+    }
+}
 
 roteadorAulas.get('/', async (req, res) => {
     const resultados = await TabelaAulas.listar()
@@ -22,7 +30,8 @@ roteadorAulas.get('/', async (req, res) => {
     )
 })
 
-roteadorAulas.post('/', async (req, res, proximo) => {
+roteadorAulas.use(verificaToken)
+    .post('/', async (req, res, proximo) => {
     try {
         const dadosRecebidos = req.body
         const aula = new Aula(dadosRecebidos)
@@ -63,6 +72,7 @@ roteadorAulas.post('/', async (req, res, proximo) => {
 roteadorAulas.get('/:idAula', async (req, res, proximo) =>{
 
     try {
+
         const id = req.params.idAula
         const aula = new Aula({id: id})
         await aula.carregar()
@@ -79,7 +89,8 @@ roteadorAulas.get('/:idAula', async (req, res, proximo) =>{
     }
 })
 
-roteadorAulas.put('/:idAula', async(req, res, proximo) => {
+roteadorAulas.use(verificaToken)
+    .put('/:idAula', async(req, res, proximo) => {
 
     try {
         const id = req.params.idAula
@@ -95,7 +106,8 @@ roteadorAulas.put('/:idAula', async(req, res, proximo) => {
 
 })
 
-roteadorAulas.delete('/:idAula', async (req, res, proximo) => {
+roteadorAulas.use(verificaToken)
+    .delete('/:idAula', async (req, res, proximo) => {
     try {
         const id = req.params.idAula
         const aula = new Aula({ id: id})

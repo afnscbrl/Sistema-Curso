@@ -1,6 +1,6 @@
 class NaoEncontrado extends Error {
-    constructor() {
-        super('Modulo não encontrado')
+    constructor(arg) {
+        super(`${arg} não encontrado`)
         this.name = 'NaoEncontrado'
         this.idErro = 0
     }

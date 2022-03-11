@@ -2,6 +2,22 @@ const roteadorModulos = require('express').Router()
 const TabelaModulo = require('./TabelaModulo')
 const Modulo = require('./Modulo')
 const SerializadorModulo = require('../../Serializador').SerializadorModulo
+const auth = require('../usuarios/auth')
+const { send } = require('express/lib/response')
+//const Usuario = require('../usuarios/Usuario')
+
+let verificaToken = async function (req, res, proximo) {
+    try {
+        const token = req.get('Authorization')
+        await auth.verificaAutorizacao(token, res)
+        proximo()
+    } catch (erro) {
+        
+        // proximo(erro)
+        res.status(401).send({Error: erro.message})
+        
+    }
+}
 
 
 roteadorModulos.get('/', async (req, res) => {
@@ -18,6 +34,8 @@ roteadorModulos.get('/', async (req, res) => {
 
 roteadorModulos.post('/', async (req, res, proximo) => {
     try {
+        const token = req.get('Authorization')
+        await auth.verificaAutorizacao(token)
         const dadosRecebidos = req.body
         const modulo = new Modulo(dadosRecebidos)
         await modulo.criar()
@@ -36,6 +54,7 @@ roteadorModulos.post('/', async (req, res, proximo) => {
 roteadorModulos.get('/:idModulo', async (req, res, proximo) =>{
 
     try {
+        
         const id = req.params.idModulo
         const modulo = new Modulo({id: id})
         await modulo.carregar()
@@ -52,7 +71,8 @@ roteadorModulos.get('/:idModulo', async (req, res, proximo) =>{
     }
 })
 
-roteadorModulos.put('/:idModulo', async(req, res, proximo) => {
+roteadorModulos.use(verificaToken)
+    .put('/:idModulo', async(req, res, proximo) => {
 
     try {
         const id = req.params.idModulo
@@ -68,7 +88,8 @@ roteadorModulos.put('/:idModulo', async(req, res, proximo) => {
 
 })
 
-roteadorModulos.delete('/:idModulo', async (req, res, proximo) => {
+roteadorModulos.use(verificaToken)
+    .delete('/:idModulo', async (req, res, proximo) => {
     try {
         const id = req.params.idModulo
         const modulo = new Modulo({ id: id})

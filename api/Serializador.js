@@ -7,7 +7,7 @@ class Serializador {
     }
 
     serializar(dados) {
-        if (this.contentType === 'application/json'){
+        if (this.contentType === 'application/json' || this.contentType === 'application/json; charset=utf-8' || this.contentType === 'text/plain; charset=utf-8'){
             return this.json(this.filtrar(dados))
         }
 
