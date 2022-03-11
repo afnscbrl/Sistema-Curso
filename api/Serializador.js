@@ -41,7 +41,7 @@ class SerializadorModulo extends Serializador {
     constructor(contentType) {
         super()
         this.contentType = contentType
-        this.camposPublicos = ['id', 'nome', 'categoria', 'totalAulas']
+        this.camposPublicos = ['id', 'nome', 'categoria', 'totalAulas', 'totalHoras']
 
     }
 }
@@ -50,7 +50,7 @@ class SerializadorAula extends Serializador {
     constructor(contentType) {
         super()
         this.contentType = contentType
-        this.camposPublicos = ['id', 'nome', 'modulo', 'data']
+        this.camposPublicos = ['id', 'nome', 'modulo', 'data', 'duracao']
 
     }
 }

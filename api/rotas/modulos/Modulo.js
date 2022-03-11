@@ -3,11 +3,12 @@ const CampoInvalido = require('../../erros/CampoInvalido')
 const DadosNaoFornecidos = require('../../erros/DadosNaoFornecidos')
 
 class Modulo {
-    constructor({ id, nome, categoria, totalAulas}) {
+    constructor({ id, nome, categoria, totalAulas, totalHoras}) {
         this.id = id
         this.nome = nome
         this.categoria = categoria
         this.totalAulas = totalAulas
+        this.totalHoras = totalHoras
     }
 
     async criar() {
@@ -24,6 +25,7 @@ class Modulo {
         this.nome = encontrado.nome
         this.categoria = encontrado.categoria 
         this.totalAulas = encontrado.totalAulas
+        this.totalHoras = encontrado.totalHoras
 
     }
 

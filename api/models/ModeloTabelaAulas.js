@@ -19,6 +19,10 @@ const colunas = {
     data: {
         type: Sequelize.DATEONLY,
         allowNull: false
+    },
+    duracao: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 }
 

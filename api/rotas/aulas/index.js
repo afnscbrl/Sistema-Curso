@@ -38,12 +38,20 @@ roteadorAulas.use(verificaToken)
         await aula.criar()
         res.status(201)
         const moduloAula = aula.modulo
-        const totalAmount = await Modelo.findAll({raw:true, 
+        //const aulaHoras = aula.duracao
+        const totalAmountMod = await Modelo.findAll({raw:true, 
             attributes: [
                 [Sequelize.fn('count', Sequelize.col('modulo')), 'total_amount'],
             ],
             where: {modulo : moduloAula},
             });
+
+        const totalAmountHoras = await Modelo.findAll({raw:true, 
+            attributes: [
+                [Sequelize.fn('sum', Sequelize.col('duracao')), 'total_horas'],
+            ],
+            where: {modulo : moduloAula},
+            });            
 
         const serializador = new SerializadorAula(
             res.getHeader('Content-Type')
@@ -52,17 +60,19 @@ roteadorAulas.use(verificaToken)
             serializador.serializar(aula)
         )
         
-        const totalAulas = Object.values(totalAmount[0])
+        const totalAulas = Object.values(totalAmountMod[0])
+        const totalHoras = Object.values(totalAmountHoras[0])
         //----------
         const encontrado = await ModeloMod.findOne({
             where: {
                 nome: moduloAula
             }
         })
-        const totalAulasModulo = {
-            totalAulas: totalAulas[0]
+        const totais = {
+            totalAulas: totalAulas[0],
+            totalHoras: totalHoras[0]
         }
-        await TabelaModulo.atualizar(encontrado.id, totalAulasModulo)
+        await TabelaModulo.atualizar(encontrado.id, totais)
 
     }catch (erro) {
         proximo(erro)

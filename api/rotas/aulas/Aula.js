@@ -4,11 +4,13 @@ const CampoInvalido = require('../../erros/CampoInvalido')
 const DadosNaoFornecidos = require('../../erros/DadosNaoFornecidos')
 
 class Aula {
-    constructor({ id, nome, modulo, data}) {
+    constructor({ id, nome, modulo, data, duracao}) {
         this.id = id
         this.nome = nome
         this.modulo = modulo
         this.data = data
+        this.duracao = duracao
+
     }
 
     async criar() {
@@ -24,6 +26,7 @@ class Aula {
             nome: this.nome,
             modulo: this.modulo,
             data: this.data,
+            duracao: this.duracao
         })
 
         this.id = resultado.id
@@ -34,11 +37,12 @@ class Aula {
         this.nome = encontrado.nome
         this.modulo = encontrado.modulo
         this.data = encontrado.data
+        this.duracao = encontrado.duracao
     }
 
     async atualizar() {
         await TabelaAula.pegarPorId(this.id)
-        const campos = ['nome', 'modulo', 'data']
+        const campos = ['nome', 'modulo', 'data', 'duracao']
         const dadosAtualizar = {}
         campos.forEach((campo) => {
             const valor = this[campo]
@@ -58,7 +62,7 @@ class Aula {
     }
 
     validar() {
-        const campos = ['nome', 'modulo', 'data']
+        const campos = ['nome', 'modulo', 'data', 'duracao']
         campos.forEach(campo => {
             const valor = this[campo]
 

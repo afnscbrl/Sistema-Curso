@@ -15,6 +15,11 @@ const colunas = {
         type: Sequelize.INTEGER,
         defaultValue: 0,
         allowNull: false
+    },
+    totalHoras: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false
     }
 }
 
