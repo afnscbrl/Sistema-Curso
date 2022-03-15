@@ -19,7 +19,7 @@ module.exports = {
             id: usuario.id
         }
         
-        const token = jwt.sign(payload, process.env.CHAVE_JWT, {expiresIn: '5m'})
+        const token = jwt.sign(payload, process.env.CHAVE_JWT || 'senha', {expiresIn: '5m'})
         return [token, usuario]
     },
 
