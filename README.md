@@ -14,7 +14,7 @@ Utilizei o banco Mysql e criei 3 tabelas com um arquivo Js: Tabela Usuario conte
 Banco de dados: Mysql (mariadb) <br/>
 Configs do banco: /config/default.json <br/>
 Porta do server: 3030 <br/>
-Antes de iniciar o server pela primeira vez, iniciar o banco de dados (no caso do arch linux: sudo suystemctl start mariadb) e iniciar as tabelas do banco com 'node /api/banco-dados/criarTabelas.js' <br/>
+Antes de iniciar o server pela primeira vez, iniciar o banco de dados (no caso do arch linux: sudo suystemctl start mariadb), definir a senha root como 12345 (ou alterar em /config/default.json), criar um schema "sistema" e iniciar as tabelas do banco com 'node /api/banco-dados/criarTabelas.js' <br/>
 Rota principal: (localhost:3030)/api/ <br/>
 Todos os metodos trabalham apenas com formato json <br/>
 Banco de dados: Mysql (mariadb) <br/>
