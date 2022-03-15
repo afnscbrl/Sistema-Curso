@@ -33,46 +33,46 @@ não precisa de autenticação
 - **modulos/id (put - edita um modulo especifico)** <br/>
 precisa de autenticação
 - **modulos/id (delete - deleta um modulo especifico)**<br/>
-precisa de autenticação
+precisa de autenticação <br/>
 deleta todas as aulas referentes àquele modulo
 
 **Rotas Aulas:**
-- **aulas/ (get - recebe todas as aulas)**
+- **aulas/ (get - recebe todas as aulas)** <br/>
 não precisa de autenticação
-- **aulas/id (get - recebe todas as aulas de um modulo)**
-não precisa de autenticação
+- **aulas/id (get - recebe todas as aulas de um modulo)** <br/>
+não precisa de autenticação <br/>
 um detalhe que o ID passado na rota é do módulo e não da aula
-- **aulas/ (post - cria um nova aulas)**
-precisa de autenticação
-atualiza o total de aulas e horas do modulo relacionado
-formato json 
-{
-    "nome": "nome", 
-    "modulo": "modulo", 
-    "data": "dd-mm-aaaa", 
-    "duracacao": "00"
-}
-- **aulas/id (put - edita uma aula especifica)**
-precisa de autenticação
+- **aulas/ (post - cria um nova aulas)** <br/>
+precisa de autenticação <br/>
+atualiza o total de aulas e horas do modulo relacionado <br/>
+formato json <br/> 
+{ <br/>
+    "nome": "nome", <br/> 
+    "modulo": "modulo", <br/> 
+    "data": "dd-mm-aaaa", <br/>
+    "duracacao": "00" <br/>
+} <br/>
+- **aulas/id (put - edita uma aula especifica)** <br/>
+precisa de autenticação <br/>
 atualiza o total de horas do modulo relacionado
-- **aulas/id (delete - deleta uma aula especifica)**
-precisa de autenticação
+- **aulas/id (delete - deleta uma aula especifica)** <br/>
+precisa de autenticação <br/>
 atualiza o total de aulas e horas do modulo relacionado
 
 **Rotas Usuarios**
-- **users/registro (post - cria um usuario)**
-formato json
-{
-    "nome": "nome",
-    "senha": "senha"
-}
-- **users/login (post - loga no sistema)**
-formato json
-{
-    "nome": "nome",
-    "senha": "senha"
-}
-- **users/logout (get - desloga do sistema)**
+- **users/registro (post - cria um usuario)** <br/>
+formato json <br/>
+{ <br/>
+    "nome": "nome", <br/>
+    "senha": "senha" <br/>
+} <br/>
+- **users/login (post - loga no sistema)** <br/>
+formato json <br/>
+{ <br/>
+    "nome": "nome", <br/>
+    "senha": "senha" <br/>
+} <br/>
+- **users/logout (get - desloga do sistema)** <br/>
 precisa estar autenticado
 
 
