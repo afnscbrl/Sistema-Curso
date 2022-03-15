@@ -11,27 +11,15 @@ const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
 const formatosAceitos = require('./Serializador').formatosAceitos
 const SerializadorErro = require('./Serializador').SerializadorErro
 
+const cors = require('cors');
+
+const corsOptions = {
+  exposedHeaders: 'Authorization',
+}
+
+app.use(cors(corsOptions))
 
 app.use(bodyParser.json())
-
-app.use((req, res, proximo) => {
-    let formatoReq = req.header('Accept')
-    
-    if(formatoReq === '*/*') {
-        formatoReq = 'application/json'
-    }
-    
-    if(formatosAceitos.indexOf(formatoReq) === -1) {
-        res.status(406)
-        res.end()
-        return
-    }
-    
-    res.setHeader('Content-Type', formatoReq)
-    proximo()
-    
-    
-})
 
 
 

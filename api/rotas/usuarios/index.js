@@ -3,8 +3,9 @@ const roteadorUsuario = require('express').Router()
 const Usuario = require('./Usuario')
 const SerializadorUsuario = require('../../Serializador').SerializadorUsuario
 const auth = require('./auth.js')
+const contentType = require('../middlwares').contentType
 
-roteadorUsuario.post('/registro', async (req, res, proximo) => {
+roteadorUsuario.use(contentType).post('/registro', async (req, res, proximo) => {
     try {
         const dadosRecebidos = req.body
         const usuario = new Usuario(dadosRecebidos)
@@ -21,23 +22,23 @@ roteadorUsuario.post('/registro', async (req, res, proximo) => {
     }
 })
 
-roteadorUsuario.post('/login', async (req, res, proximo) => {
+roteadorUsuario.use(contentType).post('/login', async (req, res, proximo) => {
     try {
         const [token, usuario] = await auth.autorizaUsuario(req)
         res.set('Authorization', token)
+        res.header('token', token)
         res.status(202)
         const serializador = new SerializadorUsuario(res.getHeader('Content-Type')) 
         
         res.send(serializador.serializar(usuario))     
-        //return res.redirect(200, '../modulos/')
-        //console.log(res.getHeader('Content-Type'))
-        // editar para rota de alteração
+        
     } catch (erro) {
+        res.sendStatus(401)
         proximo(erro)
     }
 })
 
-roteadorUsuario.get('/logout', async(req, res, proximo) => {
+roteadorUsuario.use(contentType).get('/logout', async(req, res, proximo) => {
     try {
         const token = req.get('Authorization')
         if (!token) {
@@ -46,7 +47,6 @@ roteadorUsuario.get('/logout', async(req, res, proximo) => {
         }
         await auth.verificaAutorizacao(token)
         res.removeHeader('Authorization')
-        return res.setHeader('Content-Type', 'application/json').redirect('../modulos/')
         // editar para rota de alteração
     } catch (erro) {
         proximo(erro)

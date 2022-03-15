@@ -4,7 +4,6 @@ const instancia = require('../banco-dados/index.js')
 const colunas = { 
     nome: {
         type: Sequelize.STRING,
-        unique: true,
         allowNull: false
     },
     senha: {

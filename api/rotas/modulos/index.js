@@ -2,25 +2,16 @@ const roteadorModulos = require('express').Router()
 const TabelaModulo = require('./TabelaModulo')
 const Modulo = require('./Modulo')
 const SerializadorModulo = require('../../Serializador').SerializadorModulo
-const auth = require('../usuarios/auth')
-const { send } = require('express/lib/response')
-//const Usuario = require('../usuarios/Usuario')
+const TabelaAula = require('../aulas/TabelaAula')
+const Aula = require('../../models/ModeloTabelaAulas')
 
-let verificaToken = async function (req, res, proximo) {
-    try {
-        const token = req.get('Authorization')
-        await auth.verificaAutorizacao(token, res)
-        proximo()
-    } catch (erro) {
-        
-        // proximo(erro)
-        res.status(401).send({Error: erro.message})
-        
-    }
-}
+const verificaToken = require('../middlwares').verificaToken
+const contentType = require('../middlwares').contentType
 
 
-roteadorModulos.get('/', async (req, res) => {
+
+
+roteadorModulos.use(contentType).get('/', async (req, res) => {
     const resultados = await TabelaModulo.listar()
     res.status(200)
 
@@ -32,11 +23,11 @@ roteadorModulos.get('/', async (req, res) => {
     )
 })
 
-roteadorModulos.post('/', async (req, res, proximo) => {
+roteadorModulos.use(contentType, verificaToken).post('/', async (req, res, proximo) => {
     try {
-        const token = req.get('Authorization')
-        await auth.verificaAutorizacao(token)
         const dadosRecebidos = req.body
+        dadosRecebidos.nome = dadosRecebidos.nome.charAt(0)
+            .toUpperCase() + dadosRecebidos.nome.slice(1)
         const modulo = new Modulo(dadosRecebidos)
         await modulo.criar()
         res.status(201)
@@ -51,7 +42,7 @@ roteadorModulos.post('/', async (req, res, proximo) => {
     }
 })
 
-roteadorModulos.get('/:idModulo', async (req, res, proximo) =>{
+roteadorModulos.use(contentType).get('/:idModulo', async (req, res, proximo) =>{
 
     try {
         
@@ -71,12 +62,14 @@ roteadorModulos.get('/:idModulo', async (req, res, proximo) =>{
     }
 })
 
-roteadorModulos.use(verificaToken)
+roteadorModulos.use(contentType, verificaToken)
     .put('/:idModulo', async(req, res, proximo) => {
 
     try {
         const id = req.params.idModulo
         const dadosRecebidos = req.body
+        dadosRecebidos.nome = dadosRecebidos.nome.charAt(0)
+            .toUpperCase() + dadosRecebidos.nome.slice(1)
         const dados = Object.assign({}, dadosRecebidos, {id: id})
         const modulo = new Modulo(dados)
         await modulo.atualizar()
@@ -88,14 +81,26 @@ roteadorModulos.use(verificaToken)
 
 })
 
-roteadorModulos.use(verificaToken)
+roteadorModulos.use(contentType, verificaToken)
     .delete('/:idModulo', async (req, res, proximo) => {
     try {
         const id = req.params.idModulo
         const modulo = new Modulo({ id: id})
         await modulo.carregar()
-        await modulo.remover()
+        await modulo.remover()   
+            
+        const encontrado = await Aula.findAll({
+            where: {
+                modulo: modulo.nome
+            }
+        })
+        await encontrado.map(el => TabelaAula.remover(el.id))
+
+        //await TabelaAula.remover(encontrado.id, totais)
+                
+                
         res.status(204)
+
         res.end()
     } catch(erro) {
         proximo(erro)

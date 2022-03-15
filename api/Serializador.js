@@ -7,10 +7,10 @@ class Serializador {
     }
 
     serializar(dados) {
-        if (this.contentType === 'application/json' || this.contentType === 'application/json; charset=utf-8' || this.contentType === 'text/plain; charset=utf-8'){
+        if (this.contentType === 'application/json'|| this.contentType === 'application/json, text/plain, */*'){
             return this.json(this.filtrar(dados))
         }
-
+        
         throw new ValorNaoSuportado(this.contentType)
     }
 
