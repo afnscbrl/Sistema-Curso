@@ -16,9 +16,9 @@ Configs do banco: /config/default.json
 Porta do server: 3030
 Antes de iniciar o server pela primeira vez, iniciar as tabelas do banco com 'node /api/banco-dados/criarTabelas.js'
 Rota principal: (localhost:3030)/api/
+Todos os metodos trabalham apenas com formato json
 
 **Rotas Modulos:**
-todas os metodos trabalham apenas com formato json
 - **modulos/ (get - recebe todos os modulos)**
 não precisa de autenticação
 - **modulos/ (post - cria um modoulo novo)**
