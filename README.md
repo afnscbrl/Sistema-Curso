@@ -1,4 +1,4 @@
-# Sistema-Curso
+# Sistema-Curso API REST
 Projeto Web FullStack em NodeJs com React
 
 ### Resumo do projeto
