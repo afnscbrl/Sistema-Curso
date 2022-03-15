@@ -64,7 +64,6 @@ roteadorAulas.use(contentType, verificaToken)
         await aula.criar()
         res.status(201)
         const moduloAula = aula.modulo
-        //const aulaHoras = aula.duracao
         const totalAmountMod = await Modelo.findAll({raw:true, 
             attributes: [
                 [Sequelize.fn('count', Sequelize.col('modulo')), 'total_amount'],
