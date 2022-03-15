@@ -59,4 +59,4 @@ app.use((erro, req, res, proximo) => {
     ) 
 } )
 
-app.listen(config.get(process.env.PORT || 3030), () => console.log("A Api esta ok"))
+app.listen(config.get('api.porta'), () => console.log("A Api esta ok"))
