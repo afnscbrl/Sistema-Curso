@@ -19,20 +19,20 @@ Rota principal: (localhost:3030)/api/
 Todos os metodos trabalham apenas com formato json
 
 **Rotas Modulos:**
-- **modulos/ (get - recebe todos os modulos)**
+- **modulos/ (get - recebe todos os modulos)** <br/>
 não precisa de autenticação
-- **modulos/ (post - cria um modoulo novo)**
-precisa de autenticação
-formato json 
-{
-    "nome": "nome", 
-    "categoria": "categoria"
+- **modulos/ (post - cria um modoulo novo)** <br/>
+precisa de autenticação <br/>
+formato json  <br/>
+{ <br/>
+    "nome": "nome", <br/>
+    "categoria": "categoria" <br/>
 }
-- **modulos/id (get - recebe um modulo especifico)**
+- **modulos/id (get - recebe um modulo especifico)** <br/>
 não precisa de autenticação
-- **modulos/id (put - edita um modulo especifico)**
+- **modulos/id (put - edita um modulo especifico)** <br/>
 precisa de autenticação
-- **modulos/id (delete - deleta um modulo especifico)**
+- **modulos/id (delete - deleta um modulo especifico)**<br/>
 precisa de autenticação
 deleta todas as aulas referentes àquele modulo
 
@@ -78,13 +78,13 @@ precisa estar autenticado
 
 
 ### A API REST
-###### Index
+#### Index
 Comecei o projeto criando as config em js do banco e criação de tabelas como mencionado, em seguida criei o index.js principal com as principais rotas: para requests dos Modulo '/api/modulos'; para requests das Aulas 'api/aulas', para requests de login, registro e logout '/api/users. Tambem nesse arquivo foi adicionado alguns middlewares como o CORS habilitando expor o header 'Authorization' onde mais na frente utilizo para autenticação de rotas privadas no frontend. Necessário mencionar essa config do CORS porque na tentativa de pegar os tokens do header no sucesso de login, sem essa config a resposta do servidor omitia essa informação. Ao funal, subo o serviço na porta 3030.
 
-###### Models
+#### Models
 Em seguida modelei as tabelas para o seequilize (pasta models) com os campos necessários como tipo de variavel, default values e not null.
 
-###### Rotas
+#### Rotas
 Cada rota tem sua pasta especifica onde as rotas de modulos e aulas são basicamente as mesmas, com ligeiras mudanças em seus metodos de requests. Começando por elas, eu criei uma Classe (i.e. rotas/modulos/Modulo.js) com suas respectivias propriedades respeitando os campos de sua respectiva tabela e metodos que essa classe usa de acordo com os requests que a rota aceita. Esses metodos tem as regras de negocio de cada tabela e usam outras funções que estão em outro arquivo (i.e. rotas/modulos/TabelaModulo.js) que tem os metodos de querys do seequilize com o banco de dados.
 Já no index.js de cada rota eu faço a complementação do path da rota e uso middlewares de contentType e autenticação importando esses middlewares da pasta rotas/middlewares. Nesse arquivo (index.js de cada rota) eu defino os requests que são feitos pra cada rota recebo os requests feitos, e chamo os metodos respectivos da classe, se o request for aceito, respondo com o status especifico assim como se der erro no request. As diferenças entre rotas de modulo e aula aqui são: no metodo delete do modulo, ele deleta todas as aulas de tem no modulo; e no metodo post, put e delete das aulas ele atualiza os dados do modulo respectivo com total de aulas e total de horas.
 Nas rotas de Usuario são feitas as regras para cadastro, login e logout. Elas seguem a mesma estrutura das outras rotas com classes metodos e funções do seequeilize, mas so tem dois tipos requisições possiveis post e get onde um post para registro, um para login e um get para logout. No metodo de login é verificado se o usuário existe, compara a senha inserida com a senha hash salva no banco, se ok ele seta no header de resposta um "Authorization" com o token jwt com tempo de expiração de 5 minutos. No logout ele verifica se o usuario tem algum token valido no request, caso tenha ele apaga os tokens do header do usuario.
